@@ -1,0 +1,1598 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M2E Crypto Tracker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        border: "hsl(var(--border))",
+                        input: "hsl(var(--input))",
+                        ring: "hsl(var(--ring))",
+                        background: "hsl(var(--background))",
+                        foreground: "hsl(var(--foreground))",
+                        primary: {
+                            DEFAULT: "hsl(var(--primary))",
+                            foreground: "hsl(var(--primary-foreground))",
+                        },
+                        secondary: {
+                            DEFAULT: "hsl(var(--secondary))",
+                            foreground: "hsl(var(--secondary-foreground))",
+                        },
+                        destructive: {
+                            DEFAULT: "hsl(var(--destructive))",
+                            foreground: "hsl(var(--destructive-foreground))",
+                        },
+                        muted: {
+                            DEFAULT: "hsl(var(--muted))",
+                            foreground: "hsl(var(--muted-foreground))",
+                        },
+                        accent: {
+                            DEFAULT: "hsl(var(--accent))",
+                            foreground: "hsl(var(--accent-foreground))",
+                        },
+                        card: {
+                            DEFAULT: "hsl(var(--card))",
+                            foreground: "hsl(var(--card-foreground))",
+                        },
+                        gst: "#4CAF50",
+                        sand: "#DCB272",
+                        stepn: "#33CCFF",
+                        eth: "#627EEA",
+                        ltc: "#345D9D",
+                        btc: "#F7931A"
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --background: 0 0% 100%;
+            --foreground: 222.2 84% 4.9%;
+            
+            --card: 0 0% 100%;
+            --card-foreground: 222.2 84% 4.9%;
+            
+            --popover: 0 0% 100%;
+            --popover-foreground: 222.2 84% 4.9%;
+            
+            --primary: 250 95% 60%;
+            --primary-foreground: 210 40% 98%;
+            
+            --secondary: 142 71% 45%;
+            --secondary-foreground: 210 40% 98%;
+            
+            --muted: 210 40% 96.1%;
+            --muted-foreground: 215.4 16.3% 46.9%;
+            
+            --accent: 210 40% 96.1%;
+            --accent-foreground: 222.2 47.4% 11.2%;
+            
+            --destructive: 0 84.2% 60.2%;
+            --destructive-foreground: 210 40% 98%;
+            
+            --border: 214.3 31.8% 91.4%;
+            --input: 214.3 31.8% 91.4%;
+            --ring: 222.2 84% 4.9%;
+            
+            --radius: 0.5rem;
+        }
+        
+        .dark {
+            --background: 222.2 84% 4.9%;
+            --foreground: 210 40% 98%;
+            
+            --card: 222.2 84% 9.9%;
+            --card-foreground: 210 40% 98%;
+            
+            --popover: 222.2 84% 4.9%;
+            --popover-foreground: 210 40% 98%;
+            
+            --primary: 250 95% 60%;
+            --primary-foreground: 210 40% 98%;
+            
+            --secondary: 142 71% 45%;
+            --secondary-foreground: 210 40% 98%;
+            
+            --muted: 217.2 32.6% 17.5%;
+            --muted-foreground: 215 20.2% 65.1%;
+            
+            --accent: 217.2 32.6% 17.5%;
+            --accent-foreground: 210 40% 98%;
+            
+            --destructive: 0 62.8% 30.6%;
+            --destructive-foreground: 210 40% 98%;
+            
+            --border: 217.2 32.6% 17.5%;
+            --input: 217.2 32.6% 17.5%;
+            --ring: 212.7 26.8% 83.9%;
+        }
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            background-color: hsl(var(--background));
+            color: hsl(var(--foreground));
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background-color: hsl(var(--primary));
+            color: hsl(var(--primary-foreground));
+        }
+        
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+        
+        .btn-secondary {
+            background-color: hsl(var(--secondary));
+            color: hsl(var(--secondary-foreground));
+        }
+        
+        .btn-secondary:hover {
+            opacity: 0.9;
+        }
+        
+        .btn-outline {
+            border: 1px solid hsl(var(--border));
+            background-color: transparent;
+            color: hsl(var(--foreground));
+        }
+        
+        .btn-outline:hover {
+            background-color: hsl(var(--muted));
+        }
+        
+        .btn-destructive {
+            background-color: hsl(var(--destructive));
+            color: hsl(var(--destructive-foreground));
+        }
+        
+        .btn-destructive:hover {
+            opacity: 0.9;
+        }
+        
+        .btn-gst {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .btn-sand {
+            background-color: #DCB272;
+            color: white;
+        }
+        
+        .btn-stepn {
+            background-color: #33CCFF;
+            color: white;
+        }
+        
+        .btn-eth {
+            background-color: #627EEA;
+            color: white;
+        }
+        
+        .btn-ltc {
+            background-color: #345D9D;
+            color: white;
+        }
+        
+        .btn-btc {
+            background-color: #F7931A;
+            color: white;
+        }
+        
+        .btn-sm {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .btn-lg {
+            padding: 0.75rem 1.5rem;
+            font-size: 1.125rem;
+        }
+        
+        .btn-icon {
+            padding: 0.5rem;
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .card {
+            border-radius: var(--radius);
+            background-color: hsl(var(--card));
+            color: hsl(var(--card-foreground));
+            border: 1px solid hsl(var(--border));
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+        }
+        
+        .input {
+            display: block;
+            width: 100%;
+            padding: 0.5rem;
+            border-radius: var(--radius);
+            border: 1px solid hsl(var(--input));
+            background-color: transparent;
+            color: hsl(var(--foreground));
+        }
+        
+        .input:focus {
+            outline: none;
+            border-color: hsl(var(--ring));
+            box-shadow: 0 0 0 2px hsla(var(--ring), 0.2);
+        }
+        
+        .label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: hsl(var(--foreground));
+        }
+        
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: hsl(var(--muted));
+            outline: none;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: hsl(var(--primary));
+            cursor: pointer;
+        }
+        
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: hsl(var(--primary));
+            cursor: pointer;
+            border: none;
+        }
+        
+        .select {
+            display: block;
+            width: 100%;
+            padding: 0.5rem;
+            border-radius: var(--radius);
+            border: 1px solid hsl(var(--input));
+            background-color: transparent;
+            color: hsl(var(--foreground));
+        }
+        
+        .select:focus {
+            outline: none;
+            border-color: hsl(var(--ring));
+            box-shadow: 0 0 0 2px hsla(var(--ring), 0.2);
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 1rem;
+            right: 1rem;
+            padding: 1rem;
+            border-radius: var(--radius);
+            background-color: hsl(var(--card));
+            color: hsl(var(--card-foreground));
+            border: 1px solid hsl(var(--border));
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            opacity: 0;
+            transform: translateY(1rem);
+            transition: all 0.3s ease;
+            z-index: 50;
+        }
+        
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .progress {
+            height: 0.5rem;
+            border-radius: 9999px;
+            overflow: hidden;
+            background-color: hsl(var(--muted));
+        }
+        
+        .progress-value {
+            height: 100%;
+            border-radius: 9999px;
+        }
+        
+        .wallet-address {
+            color: transparent;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+            transition: text-shadow 0.3s ease, color 0.3s ease;
+        }
+        
+        .wallet-address:hover {
+            color: inherit;
+            text-shadow: none;
+        }
+        
+        /* Token type styles */
+        .token-gst {
+            color: #4CAF50;
+        }
+        
+        .token-sand {
+            color: #DCB272;
+        }
+        
+        .token-stepn {
+            color: #33CCFF;
+        }
+        
+        /* Crypto currency styles */
+        .crypto-eth {
+            color: #627EEA;
+        }
+        
+        .crypto-ltc {
+            color: #345D9D;
+        }
+        
+        .crypto-btc {
+            color: #F7931A;
+        }
+        
+        /* Tab styles */
+        .tab-active {
+            border-bottom: 2px solid hsl(var(--primary));
+            color: hsl(var(--primary));
+        }
+        
+        /* Animation for token conversion */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.7;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .animate-pulse {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        /* Crypto swap animation */
+        @keyframes swap {
+            0% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-10px);
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .animate-swap {
+            animation: swap 1s ease-in-out;
+        }
+
+        /* Accordion style */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .accordion-content.open {
+            max-height: 500px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div class="container mx-auto max-w-5xl px-4 py-8">
+            <header class="flex justify-between items-center mb-8">
+                <div class="flex items-center gap-2">
+                    <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-primary-foreground">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                    </div>
+                    <h1 class="text-xl font-bold">M2E Crypto Tracker</h1>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button id="theme-toggle" class="btn btn-outline btn-icon" aria-label="Toggle Theme">
+                        <svg id="light-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><circle cx="12" cy="12" r="5"></circle><path d="M12 1v2"></path><path d="M12 21v2"></path><path d="m4.2 4.2 1.4 1.4"></path><path d="m18.4 18.4 1.4 1.4"></path><path d="M1 12h2"></path><path d="M21 12h2"></path><path d="m4.2 19.8 1.4-1.4"></path><path d="m18.4 5.6 1.4-1.4"></path></svg>
+                        <svg id="dark-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="hidden"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+                    </button>
+                    <div class="flex items-center gap-2 bg-muted px-3 py-1.5 rounded-full">
+                        <span class="flex h-2 w-2 rounded-full bg-green-500"></span>
+                        <span id="wallet-address" class="text-xs font-mono wallet-address">0x7Ba543...e92C</span>
+                    </div>
+                </div>
+            </header>
+            
+            <div class="tabs flex border-b mb-6">
+                <button class="tab-active px-4 py-2 font-medium text-sm" data-tab="dashboard">Dashboard</button>
+                <button class="px-4 py-2 font-medium text-sm text-muted-foreground" data-tab="swap">Swap</button>
+                <button class="px-4 py-2 font-medium text-sm text-muted-foreground" data-tab="settings">Settings</button>
+            </div>
+            
+            <div id="dashboard-tab" class="tab-content">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Activity Panel -->
+                    <div class="card">
+                        <div class="p-6">
+                            <h2 class="text-lg font-semibold mb-4">Activity Tracker</h2>
+                            
+                            <div class="flex items-start">
+                                <div class="w-full">
+                                    <div class="flex justify-between mb-1">
+                                        <span class="text-sm text-muted-foreground">Steps</span>
+                                        <span id="step-count" class="text-sm font-medium">0</span>
+                                    </div>
+                                    <div class="progress mb-4">
+                                        <div id="step-progress" class="progress-value bg-secondary" style="width: 0%"></div>
+                                    </div>
+                                    
+                                    <div class="space-y-1 mb-6">
+                                        <div class="flex justify-between">
+                                            <span class="text-sm text-muted-foreground">Daily Goal</span>
+                                            <span id="daily-goal" class="text-sm font-medium">10,000 steps</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-sm text-muted-foreground">Token Type</span>
+                                            <span id="token-type-display" class="text-sm font-medium token-gst">GST</span>
+                                        </div>
+                                        <div class="flex justify-between">
+                                            <span class="text-sm text-muted-foreground">Conversion Rate</span>
+                                            <span id="token-rate" class="text-sm font-medium">0.01 GST / 100 steps</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex gap-2">
+                                        <button id="track-steps-btn" class="btn btn-secondary flex-1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M13 4v16"></path><path d="M17 4v16"></path><path d="M21 4v16"></path><path d="M1 5.5l4 2.5"></path><path d="M1 12l4-2.5"></path><path d="M1 18.5l4-2.5"></path><path d="M9 7l-4-2.5"></path><path d="M9 12l-4 2.5"></path></svg>
+                                            Track Steps
+                                        </button>
+                                        <button id="reset-btn" class="btn btn-outline">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7l3-3"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7l-3 3"></path></svg>
+                                            Reset
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Token Panel -->
+                    <div class="card">
+                        <div class="p-6">
+                            <h2 class="text-lg font-semibold mb-4">Token Earnings</h2>
+                            
+                            <div class="flex items-center mb-6">
+                                <div id="token-icon-container" class="bg-muted rounded-full w-14 h-14 flex items-center justify-center mr-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-gst" id="token-icon"><circle cx="12" cy="12" r="10"></circle><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path><path d="M12 18V6"></path></svg>
+                                </div>
+                                <div>
+                                    <div class="text-sm text-muted-foreground">Balance</div>
+                                    <div class="flex items-baseline">
+                                        <span id="token-balance" class="text-3xl font-bold">0.00</span>
+                                        <span class="ml-1 text-muted-foreground" id="token-symbol">GST</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-6">
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-sm text-muted-foreground">Unclaimed Earnings</span>
+                                    <div class="flex items-center text-sm">
+                                        <span id="unclaimed-earnings" class="font-medium">0.00</span>
+                                        <span class="ml-1 text-muted-foreground" id="unclaimed-symbol">GST</span>
+                                    </div>
+                                </div>
+                                <div class="progress mb-4">
+                                    <div id="earnings-progress" class="progress-value bg-secondary" style="width: 0%"></div>
+                                </div>
+                                
+                                <div class="grid grid-cols-3 gap-2 mb-4">
+                                    <button id="token-gst" class="btn btn-sm btn-gst active">GST</button>
+                                    <button id="token-sand" class="btn btn-sm btn-outline">SAND</button>
+                                    <button id="token-stepn" class="btn btn-sm btn-outline">STEPN</button>
+                                </div>
+                            </div>
+                            
+                            <button id="claim-btn" class="btn btn-secondary w-full mb-4" disabled>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M12 22v-9"></path><path d="M5.2 10.2 12 17l6.5-6.8"></path><path d="M12 17V3"></path></svg>
+                                Claim Tokens
+                            </button>
+                            
+                            <div class="pt-4 border-t border-border">
+                                <h3 class="text-sm font-medium mb-3">Transaction History</h3>
+                                <div id="transaction-list" class="space-y-2 max-h-40 overflow-y-auto">
+                                    <div class="text-sm text-muted-foreground text-center py-2">No transactions yet</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Transfer Panel -->
+                    <div class="card md:col-span-2">
+                        <div class="p-6">
+                            <h2 class="text-lg font-semibold mb-4">Transfer Tokens</h2>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="recipient-address" class="label">Recipient Wallet Address</label>
+                                    <input id="recipient-address" type="text" placeholder="0x..." class="input" />
+                                </div>
+                                
+                                <div>
+                                    <label for="transfer-amount" class="label">Amount (<span id="transfer-token-symbol">GST</span>)</label>
+                                    <div class="relative">
+                                        <input id="transfer-amount" type="number" placeholder="0.00" min="0" step="0.01" class="input" />
+                                        <button id="max-btn" class="absolute right-2 top-1/2 transform -translate-y-1/2 text-xs font-medium text-primary">MAX</button>
+                                    </div>
+                                </div>
+                                
+                                <button id="transfer-btn" class="btn btn-primary w-full" disabled>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M12 22V8"></path><path d="m19 15-7-7-7 7"></path><path d="M5 4h14"></path></svg>
+                                    Transfer Tokens
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Swap Tab -->
+            <div id="swap-tab" class="tab-content hidden">
+                <div class="grid grid-cols-1 gap-6">
+                    <!-- Token Swap Card -->
+                    <div class="card">
+                        <div class="p-6">
+                            <h2 class="text-lg font-semibold mb-6">Token Swap</h2>
+                            
+                            <div class="space-y-5">
+                                <div>
+                                    <label class="label">From</label>
+                                    <div class="flex gap-4 items-center">
+                                        <div class="flex-1">
+                                            <select id="swap-from-token" class="select">
+                                                <option value="GST" selected>GST</option>
+                                                <option value="SAND">SAND</option>
+                                                <option value="STEPN">STEPN</option>
+                                            </select>
+                                        </div>
+                                        <div class="flex-1">
+                                            <input id="swap-from-amount" type="number" placeholder="0.00" min="0" step="0.01" class="input" />
+                                        </div>
+                                        <button id="swap-max-btn" class="btn btn-sm btn-outline">MAX</button>
+                                    </div>
+                                    <div class="flex justify-between mt-1">
+                                        <span class="text-xs text-muted-foreground">Balance: <span id="swap-from-balance">0.00</span></span>
+                                        <span class="text-xs text-primary cursor-pointer" id="swap-from-max">Max</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex justify-center">
+                                    <button id="swap-direction-btn" class="btn btn-icon btn-outline">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m17 10 2 2-2 2"></path><path d="M3 12h16"></path><path d="m7 14-2-2 2-2"></path><path d="M21 12H5"></path></svg>
+                                    </button>
+                                </div>
+                                
+                                <div>
+                                    <label class="label">To</label>
+                                    <div class="flex gap-4 items-center">
+                                        <div class="flex-1">
+                                            <select id="swap-to-token" class="select">
+                                                <option value="ETH" selected>ETH</option>
+                                                <option value="LTC">LTC</option>
+                                                <option value="BTC">BTC</option>
+                                            </select>
+                                        </div>
+                                        <div class="flex-1">
+                                            <input id="swap-to-amount" type="number" placeholder="0.00" min="0" step="0.000001" class="input" readonly />
+                                        </div>
+                                    </div>
+                                    <div class="flex justify-between mt-1">
+                                        <span class="text-xs text-muted-foreground">Rate: 1 <span id="swap-rate-from">GST</span> = <span id="swap-rate-value">0.00025</span> <span id="swap-rate-to">ETH</span></span>
+                                    </div>
+                                </div>
+                                
+                                <div class="pt-4">
+                                    <button id="swap-btn" class="btn btn-primary w-full" disabled>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2"><path d="M8 5h7a1 1 0 0 1 1 1v6M11 9a2 2 0 0 1-2 2H5m0 0-3-3m3 3-3 3M16 19h-7a1 1 0 0 1-1-1v-6M8 17a2 2 0 0 1 2-2h4m0 0 3-3m-3 3 3 3"></path></svg>
+                                        Swap Tokens
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Crypto Balances -->
+                    <div class="card">
+                        <div class="p-6">
+                            <h2 class="text-lg font-semibold mb-4">Crypto Wallet</h2>
+                            
+                            <div class="space-y-4">
+                                <div class="flex items-center justify-between p-3 border border-border rounded-lg">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-eth/20 rounded-full flex items-center justify-center mr-3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 32 32" class="text-eth">
+                                                <path fill="currentColor" d="M16 32C7.163 32 0 24.837 0 16S7.163 0 16 0s16 7.163 16 16-7.163 16-16 16zm7.994-15.781L16.498 4 9 16.22l7.498 4.353 7.496-4.354zM16.498 21.968l-7.499-4.353L16.498 28l7.497-10.38-7.497 4.348z"/>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <div class="font-medium">Ethereum</div>
+                                            <div class="text-xs text-muted-foreground">ETH</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div id="eth-balance" class="font-medium">0.00000</div>
+                                        <div class="text-xs text-muted-foreground">≈ $0.00</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center justify-between p-3 border border-border rounded-lg">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-ltc/20 rounded-full flex items-center justify-center mr-3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 32 32" class="text-ltc">
+                                                <path fill="currentColor" d="M16 32C7.163 32 0 24.837 0 16S7.163 0 16 0s16 7.163 16 16-7.163 16-16 16zm-5.573-12.786L9.252 24h12.875L23 20.429h-7.722l.848-3.483 1.427-.571.68-2.75-1.41.571L18.342 8h-5.129l-2.081 8.429-1.444.58L9 19.768l1.427-.554z"/>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <div class="font-medium">Litecoin</div>
+                                            <div class="text-xs text-muted-foreground">LTC</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div id="ltc-balance" class="font-medium">0.00000</div>
+                                        <div class="text-xs text-muted-foreground">≈ $0.00</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center justify-between p-3 border border-border rounded-lg">
+                                    <div class="flex items-center">
+                                        <div class="w-8 h-8 bg-btc/20 rounded-full flex items-center justify-center mr-3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 32 32" class="text-btc">
+                                                <path fill="currentColor" d="M16 32C7.163 32 0 24.837 0 16S7.163 0 16 0s16 7.163 16 16-7.163 16-16 16zm-.048-14.946c-.21 1.346-1.604 1.391-2.89 1.273l-.58 2.329-1.401-.349.567-2.274-.001-.001-.665.168-.567 2.273-1.401-.349.582-2.335-.001.001-3.343-.834.699-1.598s1.033.276 1.024.26c.57-.143.783-.384.891-.754l.923-3.702c.053.013.122.029.2.021-.002-.006-.011-.013-.02-.02l.658-2.632c-.035-.161-.175-.406-.672-.286.015-.02-1.024-.255-1.024-.255l.392-1.576 3.549.885-.001.006.654-.166.581-2.333 1.402.349-.569 2.28.665.166.569-2.279 1.401.348-.582 2.337c2.101.478 3.354 1.863 3.148 3.43-.164 1.259-.916 1.855-1.893 2.079 1.084.64 1.552 1.595 1.073 2.852-.632 1.662-2.162 2.063-4.231 1.641l.001.002z"/>
+                                                <path fill="currentColor" class="opacity-60" d="M17.816 15.279c1.103-.281 1.771-1.081 1.579-2.392-.19-1.304-1.136-1.708-2.585-1.943l-.625 2.51c.442.112.868.345 1.006.452l.625-2.509c.442.113.867.345 1.004.452s.19 1.304-.625 2.509c-.151.222-.235.668-.379 .921z"/>
+                                                <path fill="currentColor" class="opacity-60" d="M15.614 17.722c1.347-.338 2.161-1.064 1.92-2.699-.241-1.636-1.258-1.954-2.975-2.093l-.788 3.159c.545.013 1.078.298 1.245.425l.788-3.159c.545.013 1.078.298 1.245.425s.242 1.635-.788 3.159c-.192.281-.469.516-.647.783z"/>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <div class="font-medium">Bitcoin</div>
+                                            <div class="text-xs text-muted-foreground">BTC</div>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div id="btc-balance" class="font-medium">0.00000</div>
+                                        <div class="text-xs text-muted-foreground">≈ $0.00</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Settings Tab -->
+            <div id="settings-tab" class="tab-content hidden">
+                <div class="card">
+                    <div class="p-6">
+                        <h2 class="text-lg font-semibold mb-4">App Settings</h2>
+                        
+                        <div class="space-y-6">
+                            <!-- Conversion Settings -->
+                            <div class="accordion">
+                                <div class="flex justify-between items-center cursor-pointer border-b pb-2 mb-3">
+                                    <h3 class="font-medium">Step-to-Token Conversion</h3>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accordion-icon"><path d="m6 9 6 6 6-6"></path></svg>
+                                </div>
+                                <div class="accordion-content open">
+                                    <div class="mb-4">
+                                        <label for="daily-goal-setting" class="label">Daily Step Goal</label>
+                                        <input id="daily-goal-setting" type="range" min="1000" max="20000" step="1000" value="10000" class="slider mb-2" />
+                                        <div class="flex justify-between text-xs text-muted-foreground">
+                                            <span>1,000</span>
+                                            <span id="goal-value">10,000</span>
+                                            <span>20,000</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-4">
+                                        <label for="steps-per-click" class="label">Steps Per Click</label>
+                                        <input id="steps-per-click" type="range" min="10" max="500" step="10" value="100" class="slider mb-2" />
+                                        <div class="flex justify-between text-xs text-muted-foreground">
+                                            <span>10</span>
+                                            <span id="steps-per-click-value">100</span>
+                                            <span>500</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="accordion mb-4">
+                                        <div class="flex justify-between items-center cursor-pointer mb-2">
+                                            <h4 class="text-sm font-medium">Token Rates</h4>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accordion-icon"><path d="m6 9 6 6 6-6"></path></svg>
+                                        </div>
+                                        <div class="accordion-content open">
+                                            <div class="mb-3">
+                                                <label for="gst-rate-setting" class="label">GST per 100 steps</label>
+                                                <input id="gst-rate-setting" type="range" min="0.001" max="0.05" step="0.001" value="0.01" class="slider mb-2" />
+                                                <div class="flex justify-between text-xs text-muted-foreground">
+                                                    <span>0.001</span>
+                                                    <span id="gst-rate-value">0.01</span>
+                                                    <span>0.05</span>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label for="sand-rate-setting" class="label">SAND per 100 steps</label>
+                                                <input id="sand-rate-setting" type="range" min="0.001" max="0.05" step="0.001" value="0.005" class="slider mb-2" />
+                                                <div class="flex justify-between text-xs text-muted-foreground">
+                                                    <span>0.001</span>
+                                                    <span id="sand-rate-value">0.005</span>
+                                                    <span>0.05</span>
+                                                </div>
+                                            </div>
+                                            
+                                            <div>
+                                                <label for="stepn-rate-setting" class="label">STEPN per 100 steps</label>
+                                                <input id="stepn-rate-setting" type="range" min="0.001" max="0.05" step="0.001" value="0.008" class="slider mb-2" />
+                                                <div class="flex justify-between text-xs text-muted-foreground">
+                                                    <span>0.001</span>
+                                                    <span id="stepn-rate-value">0.008</span>
+                                                    <span>0.05</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Swap Rates -->
+                            <div class="accordion">
+                                <div class="flex justify-between items-center cursor-pointer border-b pb-2 mb-3">
+                                    <h3 class="font-medium">Swap Rates</h3>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="accordion-icon"><path d="m6 9 6 6 6-6"></path></svg>
+                                </div>
+                                <div class="accordion-content open">
+                                    <div class="grid grid-cols-3 gap-4 mb-4">
+                                        <div>
+                                            <label class="label text-xs">1 GST to ETH</label>
+                                            <input id="gst-eth-rate" type="number" value="0.00025" step="0.000001" class="input" />
+                                        </div>
+                                        <div>
+                                            <label class="label text-xs">1 GST to LTC</label>
+                                            <input id="gst-ltc-rate" type="number" value="0.0025" step="0.0001" class="input" />
+                                        </div>
+                                        <div>
+                                            <label class="label text-xs">1 GST to BTC</label>
+                                            <input id="gst-btc-rate" type="number" value="0.000012" step="0.000001" class="input" />
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-3 gap-4 mb-4">
+                                        <div>
+                                            <label class="label text-xs">1 SAND to ETH</label>
+                                            <input id="sand-eth-rate" type="number" value="0.00032" step="0.000001" class="input" />
+                                        </div>
+                                        <div>
+                                            <label class="label text-xs">1 SAND to LTC</label>
+                                            <input id="sand-ltc-rate" type="number" value="0.0035" step="0.0001" class="input" />
+                                        </div>
+                                        <div>
+                                            <label class="label text-xs">1 SAND to BTC</label>
+                                            <input id="sand-btc-rate" type="number" value="0.000018" step="0.000001" class="input" />
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="grid grid-cols-3 gap-4">
+                                        <div>
+                                            <label class="label text-xs">1 STEPN to ETH</label>
+                                            <input id="stepn-eth-rate" type="number" value="0.00028" step="0.000001" class="input" />
+                                        </div>
+                                        <div>
+                                            <label class="label text-xs">1 STEPN to LTC</label>
+                                            <input id="stepn-ltc-rate" type="number" value="0.003" step="0.0001" class="input" />
+                                        </div>
+                                        <div>
+                                            <label class="label text-xs">1 STEPN to BTC</label>
+                                            <input id="stepn-btc-rate" type="number" value="0.000015" step="0.000001" class="input" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-end pt-4 border-t border-border">
+                                <button id="save-settings" class="btn btn-primary">Save Settings</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Toast -->
+        <div id="toast" class="toast">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-secondary"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><path d="m9 11 3 3L22 4"></path></svg>
+            <span id="toast-message">Success!</span>
+        </div>
+    </div>
+
+    <script>
+        // State management
+        const state = {
+            // User data
+            steps: 0,
+            stepsPerClick: 100,
+            
+            // Token data
+            tokenType: 'GST', // GST, SAND, STEPN
+            tokenRates: {
+                GST: 0.01,
+                SAND: 0.005,
+                STEPN: 0.008
+            },
+            tokenBalances: {
+                GST: 0,
+                SAND: 0,
+                STEPN: 0
+            },
+            unclaimedEarnings: 0,
+            
+            // Crypto data
+            cryptoBalances: {
+                ETH: 0,
+                LTC: 0,
+                BTC: 0
+            },
+            swapRates: {
+                GST: {
+                    ETH: 0.00025,
+                    LTC: 0.0025,
+                    BTC: 0.000012
+                },
+                SAND: {
+                    ETH: 0.00032,
+                    LTC: 0.0035,
+                    BTC: 0.000018
+                },
+                STEPN: {
+                    ETH: 0.00028,
+                    LTC: 0.003,
+                    BTC: 0.000015
+                }
+            },
+            
+            // Settings
+            dailyGoal: 10000,
+            
+            // Transactions
+            transactions: [],
+            
+            // UI state
+            activeTab: 'dashboard'
+        };
+        
+        // DOM elements
+        const elements = {
+            // Dashboard elements
+            stepCount: document.getElementById('step-count'),
+            stepProgress: document.getElementById('step-progress'),
+            dailyGoal: document.getElementById('daily-goal'),
+            tokenTypeDisplay: document.getElementById('token-type-display'),
+            tokenRate: document.getElementById('token-rate'),
+            tokenBalance: document.getElementById('token-balance'),
+            tokenSymbol: document.getElementById('token-symbol'),
+            tokenIcon: document.getElementById('token-icon'),
+            tokenIconContainer: document.getElementById('token-icon-container'),
+            unclaimedEarnings: document.getElementById('unclaimed-earnings'),
+            unclaimedSymbol: document.getElementById('unclaimed-symbol'),
+            earningsProgress: document.getElementById('earnings-progress'),
+            claimBtn: document.getElementById('claim-btn'),
+            trackStepsBtn: document.getElementById('track-steps-btn'),
+            resetBtn: document.getElementById('reset-btn'),
+            transferBtn: document.getElementById('transfer-btn'),
+            transferTokenSymbol: document.getElementById('transfer-token-symbol'),
+            recipientAddress: document.getElementById('recipient-address'),
+            transferAmount: document.getElementById('transfer-amount'),
+            maxBtn: document.getElementById('max-btn'),
+            transactionList: document.getElementById('transaction-list'),
+            
+            // Token type buttons
+            tokenGst: document.getElementById('token-gst'),
+            tokenSand: document.getElementById('token-sand'),
+            tokenStepn: document.getElementById('token-stepn'),
+            
+            // Swap elements
+            swapFromToken: document.getElementById('swap-from-token'),
+            swapToToken: document.getElementById('swap-to-token'),
+            swapFromAmount: document.getElementById('swap-from-amount'),
+            swapToAmount: document.getElementById('swap-to-amount'),
+            swapFromBalance: document.getElementById('swap-from-balance'),
+            swapFromMax: document.getElementById('swap-from-max'),
+            swapMaxBtn: document.getElementById('swap-max-btn'),
+            swapDirectionBtn: document.getElementById('swap-direction-btn'),
+            swapBtn: document.getElementById('swap-btn'),
+            swapRateFrom: document.getElementById('swap-rate-from'),
+            swapRateTo: document.getElementById('swap-rate-to'),
+            swapRateValue: document.getElementById('swap-rate-value'),
+            
+            // Crypto balance elements
+            ethBalance: document.getElementById('eth-balance'),
+            ltcBalance: document.getElementById('ltc-balance'),
+            btcBalance: document.getElementById('btc-balance'),
+            
+            // Settings elements
+            dailyGoalSetting: document.getElementById('daily-goal-setting'),
+            goalValue: document.getElementById('goal-value'),
+            stepsPerClickSetting: document.getElementById('steps-per-click'),
+            stepsPerClickValue: document.getElementById('steps-per-click-value'),
+            gstRateSetting: document.getElementById('gst-rate-setting'),
+            gstRateValue: document.getElementById('gst-rate-value'),
+            sandRateSetting: document.getElementById('sand-rate-setting'),
+            sandRateValue: document.getElementById('sand-rate-value'),
+            stepnRateSetting: document.getElementById('stepn-rate-setting'),
+            stepnRateValue: document.getElementById('stepn-rate-value'),
+            
+            // Swap rate settings
+            gstEthRate: document.getElementById('gst-eth-rate'),
+            gstLtcRate: document.getElementById('gst-ltc-rate'),
+            gstBtcRate: document.getElementById('gst-btc-rate'),
+            sandEthRate: document.getElementById('sand-eth-rate'),
+            sandLtcRate: document.getElementById('sand-ltc-rate'),
+            sandBtcRate: document.getElementById('sand-btc-rate'),
+            stepnEthRate: document.getElementById('stepn-eth-rate'),
+            stepnLtcRate: document.getElementById('stepn-ltc-rate'),
+            stepnBtcRate: document.getElementById('stepn-btc-rate'),
+            
+            saveSettings: document.getElementById('save-settings'),
+            
+            // Tabs
+            dashboardTab: document.getElementById('dashboard-tab'),
+            swapTab: document.getElementById('swap-tab'),
+            settingsTab: document.getElementById('settings-tab'),
+            
+            // Theme
+            themeToggle: document.getElementById('theme-toggle'),
+            lightIcon: document.getElementById('light-icon'),
+            darkIcon: document.getElementById('dark-icon'),
+            
+            // Accordions
+            accordions: document.querySelectorAll('.accordion'),
+            
+            // Toast
+            toast: document.getElementById('toast'),
+            toastMessage: document.getElementById('toast-message')
+        };
+        
+        // Initialize the app
+        function initApp() {
+            setupEventListeners();
+            setupTheme();
+            setupAccordions();
+            updateUI();
+        }
+        
+        // Setup event listeners
+        function setupEventListeners() {
+            // Activity tracking
+            elements.trackStepsBtn.addEventListener('click', trackSteps);
+            elements.resetBtn.addEventListener('click', resetActivity);
+            
+            // Token management
+            elements.claimBtn.addEventListener('click', claimTokens);
+            elements.transferBtn.addEventListener('click', transferTokens);
+            elements.maxBtn.addEventListener('click', setMaxAmount);
+            
+            // Token type buttons
+            elements.tokenGst.addEventListener('click', () => changeTokenType('GST'));
+            elements.tokenSand.addEventListener('click', () => changeTokenType('SAND'));
+            elements.tokenStepn.addEventListener('click', () => changeTokenType('STEPN'));
+            
+            // Form validation
+            elements.recipientAddress.addEventListener('input', validateTransfer);
+            elements.transferAmount.addEventListener('input', validateTransfer);
+            
+            // Swap functionality
+            elements.swapFromToken.addEventListener('change', updateSwapRate);
+            elements.swapToToken.addEventListener('change', updateSwapRate);
+            elements.swapFromAmount.addEventListener('input', calculateSwapAmount);
+            elements.swapFromMax.addEventListener('click', setSwapMaxAmount);
+            elements.swapMaxBtn.addEventListener('click', setSwapMaxAmount);
+            elements.swapDirectionBtn.addEventListener('click', swapDirection);
+            elements.swapBtn.addEventListener('click', performSwap);
+            
+            // Settings
+            elements.dailyGoalSetting.addEventListener('input', updateGoalValue);
+            elements.stepsPerClickSetting.addEventListener('input', updateStepsPerClickValue);
+            elements.gstRateSetting.addEventListener('input', updateGstRateValue);
+            elements.sandRateSetting.addEventListener('input', updateSandRateValue);
+            elements.stepnRateSetting.addEventListener('input', updateStepnRateValue);
+            elements.saveSettings.addEventListener('click', saveSettings);
+            
+            // Tab switching
+            document.querySelectorAll('[data-tab]').forEach(tab => {
+                tab.addEventListener('click', () => switchTab(tab.dataset.tab));
+            });
+            
+            // Theme toggle
+            elements.themeToggle.addEventListener('click', toggleTheme);
+        }
+        
+        // Setup accordions
+        function setupAccordions() {
+            elements.accordions.forEach(accordion => {
+                const header = accordion.querySelector('.accordion > div:first-child');
+                const content = accordion.querySelector('.accordion-content');
+                const icon = accordion.querySelector('.accordion-icon');
+                
+                header.addEventListener('click', () => {
+                    content.classList.toggle('open');
+                    if (content.classList.contains('open')) {
+                        icon.style.transform = 'rotate(180deg)';
+                    } else {
+                        icon.style.transform = 'rotate(0deg)';
+                    }
+                });
+            });
+        }
+        
+        // Theme setup
+        function setupTheme() {
+            // Check for system preference
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            if (prefersDark) {
+                document.documentElement.classList.add('dark');
+                elements.lightIcon.classList.remove('hidden');
+            } else {
+                elements.darkIcon.classList.remove('hidden');
+            }
+            
+            // Listen for system preference changes
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+                if (e.matches) {
+                    document.documentElement.classList.add('dark');
+                    elements.darkIcon.classList.add('hidden');
+                    elements.lightIcon.classList.remove('hidden');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    elements.lightIcon.classList.add('hidden');
+                    elements.darkIcon.classList.remove('hidden');
+                }
+            });
+        }
+        
+        // Toggle theme
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.contains('dark');
+            
+            if (isDark) {
+                document.documentElement.classList.remove('dark');
+                elements.lightIcon.classList.add('hidden');
+                elements.darkIcon.classList.remove('hidden');
+            } else {
+                document.documentElement.classList.add('dark');
+                elements.darkIcon.classList.add('hidden');
+                elements.lightIcon.classList.remove('hidden');
+            }
+        }
+        
+        // Switch tab
+        function switchTab(tabId) {
+            state.activeTab = tabId;
+            
+            // Update tab buttons
+            document.querySelectorAll('[data-tab]').forEach(tab => {
+                if (tab.dataset.tab === tabId) {
+                    tab.classList.add('tab-active');
+                    tab.classList.remove('text-muted-foreground');
+                } else {
+                    tab.classList.remove('tab-active');
+                    tab.classList.add('text-muted-foreground');
+                }
+            });
+            
+            // Show active tab content
+            elements.dashboardTab.classList.toggle('hidden', tabId !== 'dashboard');
+            elements.swapTab.classList.toggle('hidden', tabId !== 'swap');
+            elements.settingsTab.classList.toggle('hidden', tabId !== 'settings');
+            
+            // Update swap from balance if switching to swap tab
+            if (tabId === 'swap') {
+                updateSwapFromBalance();
+                updateSwapRate();
+            }
+        }
+        
+        // Change token type
+        function changeTokenType(type) {
+            state.tokenType = type;
+            
+            // Update token type buttons
+            elements.tokenGst.className = 'btn btn-sm ' + (type === 'GST' ? 'btn-gst' : 'btn-outline');
+            elements.tokenSand.className = 'btn btn-sm ' + (type === 'SAND' ? 'btn-sand' : 'btn-outline');
+            elements.tokenStepn.className = 'btn btn-sm ' + (type === 'STEPN' ? 'btn-stepn' : 'btn-outline');
+            
+            // Update token display
+            elements.tokenTypeDisplay.textContent = type;
+            elements.tokenTypeDisplay.className = 'text-sm font-medium token-' + type.toLowerCase();
+            elements.tokenRate.textContent = `${state.tokenRates[type].toFixed(3)} ${type} / 100 steps`;
+            elements.tokenBalance.textContent = state.tokenBalances[type].toFixed(2);
+            elements.tokenSymbol.textContent = type;
+            elements.unclaimedSymbol.textContent = type;
+            elements.transferTokenSymbol.textContent = type;
+            
+            // Update token icon
+            elements.tokenIcon.className = 'text-' + type.toLowerCase();
+            
+            // Update unclaimed earnings (reset when changing token type)
+            state.unclaimedEarnings = 0;
+            elements.unclaimedEarnings.textContent = '0.00';
+            elements.claimBtn.disabled = true;
+            
+            // Update earnings progress
+            updateEarningsProgress();
+            
+            showToast(`Switched to ${type} tokens`, 'info');
+        }
+        
+        // Track steps
+        function trackSteps() {
+            // Add steps
+            state.steps += state.stepsPerClick;
+            
+            // Calculate token earnings
+            const earned = (state.stepsPerClick / 100) * state.tokenRates[state.tokenType];
+            state.unclaimedEarnings += earned;
+            
+            // Update UI
+            updateUI();
+            
+            // Show success message
+            showToast(`Tracked ${state.stepsPerClick} steps! Earned ${earned.toFixed(4)} ${state.tokenType}.`, 'success');
+        }
+        
+        // Reset activity
+        function resetActivity() {
+            state.steps = 0;
+            state.unclaimedEarnings = 0;
+            
+            updateUI();
+            showToast('Activity reset successfully.', 'info');
+        }
+        
+        // Claim tokens
+        function claimTokens() {
+            if (state.unclaimedEarnings <= 0) {
+                showToast('No tokens to claim.', 'error');
+                return;
+            }
+            
+            // Add to balance
+            state.tokenBalances[state.tokenType] += state.unclaimedEarnings;
+            
+            // Add transaction
+            addTransaction({
+                type: 'claim',
+                tokenType: state.tokenType,
+                amount: state.unclaimedEarnings,
+                timestamp: new Date().toISOString()
+            });
+            
+            // Reset unclaimed
+            state.unclaimedEarnings = 0;
+            
+            // Update UI
+            updateUI();
+            showToast(`${state.tokenType} tokens claimed successfully!`, 'success');
+        }
+        
+        // Transfer tokens
+        function transferTokens() {
+            const recipient = elements.recipientAddress.value.trim();
+            const amount = parseFloat(elements.transferAmount.value);
+            
+            if (!isValidEthAddress(recipient)) {
+                showToast('Invalid recipient address.', 'error');
+                return;
+            }
+            
+            if (isNaN(amount) || amount <= 0 || amount > state.tokenBalances[state.tokenType]) {
+                showToast('Invalid transfer amount.', 'error');
+                return;
+            }
+            
+            // Update balance
+            state.tokenBalances[state.tokenType] -= amount;
+            
+            // Add transaction
+            addTransaction({
+                type: 'transfer',
+                tokenType: state.tokenType,
+                recipient: recipient,
+                amount: amount,
+                timestamp: new Date().toISOString()
+            });
+            
+            // Reset form
+            elements.recipientAddress.value = '';
+            elements.transferAmount.value = '';
+            
+            // Update UI
+            updateUI();
+            showToast(`${amount.toFixed(2)} ${state.tokenType} transferred successfully!`, 'success');
+        }
+        
+        // Set max amount for transfer
+        function setMaxAmount() {
+            elements.transferAmount.value = state.tokenBalances[state.tokenType].toFixed(2);
+            validateTransfer();
+        }
+        
+        // Set max amount for swap
+        function setSwapMaxAmount() {
+            const fromToken = elements.swapFromToken.value;
+            elements.swapFromAmount.value = state.tokenBalances[fromToken].toFixed(2);
+            calculateSwapAmount();
+        }
+        
+        // Update swap rate
+        function updateSwapRate() {
+            const fromToken = elements.swapFromToken.value;
+            const toToken = elements.swapToToken.value;
+            const rate = state.swapRates[fromToken][toToken];
+            
+            elements.swapRateFrom.textContent = fromToken;
+            elements.swapRateTo.textContent = toToken;
+            elements.swapRateValue.textContent = rate.toFixed(6);
+            
+            updateSwapFromBalance();
+            calculateSwapAmount();
+        }
+        
+        // Update swap from balance
+        function updateSwapFromBalance() {
+            const fromToken = elements.swapFromToken.value;
+            elements.swapFromBalance.textContent = state.tokenBalances[fromToken].toFixed(2);
+        }
+        
+        // Calculate swap amount
+        function calculateSwapAmount() {
+            const fromToken = elements.swapFromToken.value;
+            const toToken = elements.swapToToken.value;
+            const fromAmount = parseFloat(elements.swapFromAmount.value || 0);
+            
+            if (isNaN(fromAmount) || fromAmount <= 0) {
+                elements.swapToAmount.value = '';
+                elements.swapBtn.disabled = true;
+                return;
+            }
+            
+            const rate = state.swapRates[fromToken][toToken];
+            const toAmount = fromAmount * rate;
+            
+            elements.swapToAmount.value = toAmount.toFixed(6);
+            
+            // Enable swap button if amount is valid and user has enough balance
+            elements.swapBtn.disabled = fromAmount > state.tokenBalances[fromToken];
+        }
+        
+        // Swap direction
+        function swapDirection() {
+            // Currently not implemented - would need to add reverse rates
+            showToast('Reverse swap not supported', 'info');
+        }
+        
+        // Perform swap
+        function performSwap() {
+            const fromToken = elements.swapFromToken.value;
+            const toToken = elements.swapToToken.value;
+            const fromAmount = parseFloat(elements.swapFromAmount.value);
+            const toAmount = parseFloat(elements.swapToAmount.value);
+            
+            if (isNaN(fromAmount) || fromAmount <= 0 || fromAmount > state.tokenBalances[fromToken]) {
+                showToast('Invalid swap amount', 'error');
+                return;
+            }
+            
+            // Deduct from token balance
+            state.tokenBalances[fromToken] -= fromAmount;
+            
+            // Add to crypto balance
+            state.cryptoBalances[toToken] += toAmount;
+            
+            // Add transaction
+            addTransaction({
+                type: 'swap',
+                fromToken: fromToken,
+                toToken: toToken,
+                fromAmount: fromAmount,
+                toAmount: toAmount,
+                timestamp: new Date().toISOString()
+            });
+            
+            // Update UI
+            updateTokenBalance();
+            updateCryptoBalances();
+            updateSwapFromBalance();
+            
+            // Reset form
+            elements.swapFromAmount.value = '';
+            elements.swapToAmount.value = '';
+            elements.swapBtn.disabled = true;
+            
+            showToast(`Swapped ${fromAmount.toFixed(2)} ${fromToken} to ${toAmount.toFixed(6)} ${toToken}`, 'success');
+        }
+        
+        // Validate transfer
+        function validateTransfer() {
+            const recipient = elements.recipientAddress.value.trim();
+            const amount = parseFloat(elements.transferAmount.value || '0');
+            
+            elements.transferBtn.disabled = !isValidEthAddress(recipient) || 
+                                           isNaN(amount) || 
+                                           amount <= 0 || 
+                                           amount > state.tokenBalances[state.tokenType];
+        }
+        
+        // Add transaction
+        function addTransaction(tx) {
+            state.transactions.unshift(tx);
+            updateTransactionHistory();
+        }
+        
+        // Update transaction history
+        function updateTransactionHistory() {
+            if (state.transactions.length === 0) {
+                elements.transactionList.innerHTML = `
+                    <div class="text-sm text-muted-foreground text-center py-2">No transactions yet</div>
+                `;
+                return;
+            }
+            
+            elements.transactionList.innerHTML = '';
+            
+            state.transactions.slice(0, 5).forEach(tx => {
+                const date = new Date(tx.timestamp);
+                const formattedDate = date.toLocaleString(undefined, {
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                const txEl = document.createElement('div');
+                txEl.className = 'flex justify-between items-center text-sm border-b border-border pb-2 last:border-0 last:pb-0';
+                
+                if (tx.type === 'claim') {
+                    txEl.innerHTML = `
+                        <div>
+                            <div class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-secondary mr-1"><path d="M12 22v-9"></path><path d="M5.2 10.2 12 17l6.5-6.8"></path><path d="M12 17V3"></path></svg>
+                                <span class="font-medium">Claimed ${tx.tokenType}</span>
+                            </div>
+                            <div class="text-xs text-muted-foreground">${formattedDate}</div>
+                        </div>
+                        <div class="text-secondary font-medium">+${tx.amount.toFixed(4)} ${tx.tokenType}</div>
+                    `;
+                } else if (tx.type === 'transfer') {
+                    // Truncate the address for display
+                    const shortAddress = tx.recipient.substring(0, 6) + '...' + tx.recipient.substring(tx.recipient.length - 4);
+                    
+                    txEl.innerHTML = `
+                        <div>
+                            <div class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1"><path d="M12 22V8"></path><path d="m19 15-7-7-7 7"></path><path d="M5 4h14"></path></svg>
+                                <span class="font-medium">Transfer to ${shortAddress}</span>
+                            </div>
+                            <div class="text-xs text-muted-foreground">${formattedDate}</div>
+                        </div>
+                        <div class="text-destructive font-medium">-${tx.amount.toFixed(4)} ${tx.tokenType}</div>
+                    `;
+                } else if (tx.type === 'swap') {
+                    txEl.innerHTML = `
+                        <div>
+                            <div class="flex items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-1"><path d="M8 5h7a1 1 0 0 1 1 1v6M11 9a2 2 0 0 1-2 2H5m0 0-3-3m3 3-3 3M16 19h-7a1 1 0 0 1-1-1v-6M8 17a2 2 0 0 1 2-2h4m0 0 3-3m-3 3 3 3"></path></svg>
+                                <span class="font-medium">Swap ${tx.fromToken} → ${tx.toToken}</span>
+                            </div>
+                            <div class="text-xs text-muted-foreground">${formattedDate}</div>
+                        </div>
+                        <div>
+                            <div class="text-destructive font-medium">-${tx.fromAmount.toFixed(4)} ${tx.fromToken}</div>
+                            <div class="text-secondary font-medium text-xs text-right">+${tx.toAmount.toFixed(6)} ${tx.toToken}</div>
+                        </div>
+                    `;
+                }
+                
+                elements.transactionList.appendChild(txEl);
+            });
+        }
+        
+        // Update UI
+        function updateUI() {
+            updateStepDisplay();
+            updateTokenBalance();
+            updateEarningsProgress();
+            updateTransactionHistory();
+            updateCryptoBalances();
+            validateTransfer();
+        }
+        
+        // Update step display
+        function updateStepDisplay() {
+            elements.stepCount.textContent = state.steps.toLocaleString();
+            elements.dailyGoal.textContent = `${state.dailyGoal.toLocaleString()} steps`;
+            elements.tokenRate.textContent = `${state.tokenRates[state.tokenType].toFixed(3)} ${state.tokenType} / 100 steps`;
+            
+            const percentage = Math.min((state.steps / state.dailyGoal) * 100, 100);
+            elements.stepProgress.style.width = `${percentage}%`;
+        }
+        
+        // Update token balance
+        function updateTokenBalance() {
+            elements.tokenBalance.textContent = state.tokenBalances[state.tokenType].toFixed(2);
+            elements.unclaimedEarnings.textContent = state.unclaimedEarnings.toFixed(2);
+            
+            // Update claim button
+            elements.claimBtn.disabled = state.unclaimedEarnings <= 0;
+        }
+        
+        // Update earnings progress
+        function updateEarningsProgress() {
+            // Calculate percentage based on daily goal tokens
+            const dailyMaxTokens = state.dailyGoal / 100 * state.tokenRates[state.tokenType];
+            const percentage = Math.min((state.unclaimedEarnings / dailyMaxTokens) * 100, 100);
+            elements.earningsProgress.style.width = `${percentage}%`;
+        }
+        
+        // Update crypto balances
+        function updateCryptoBalances() {
+            elements.ethBalance.textContent = state.cryptoBalances.ETH.toFixed(6);
+            elements.ltcBalance.textContent = state.cryptoBalances.LTC.toFixed(6);
+            elements.btcBalance.textContent = state.cryptoBalances.BTC.toFixed(6);
+        }
+        
+        // Update settings values
+        function updateGoalValue() {
+            const value = parseInt(elements.dailyGoalSetting.value);
+            elements.goalValue.textContent = value.toLocaleString();
+        }
+        
+        function updateStepsPerClickValue() {
+            const value = parseInt(elements.stepsPerClickSetting.value);
+            elements.stepsPerClickValue.textContent = value.toLocaleString();
+        }
+        
+        function updateGstRateValue() {
+            const value = parseFloat(elements.gstRateSetting.value);
+            elements.gstRateValue.textContent = value.toFixed(3);
+        }
+        
+        function updateSandRateValue() {
+            const value = parseFloat(elements.sandRateSetting.value);
+            elements.sandRateValue.textContent = value.toFixed(3);
+        }
+        
+        function updateStepnRateValue() {
+            const value = parseFloat(elements.stepnRateSetting.value);
+            elements.stepnRateValue.textContent = value.toFixed(3);
+        }
+        
+        // Save settings
+        function saveSettings() {
+            state.dailyGoal = parseInt(elements.dailyGoalSetting.value);
+            state.stepsPerClick = parseInt(elements.stepsPerClickSetting.value);
+            state.tokenRates.GST = parseFloat(elements.gstRateSetting.value);
+            state.tokenRates.SAND = parseFloat(elements.sandRateSetting.value);
+            state.tokenRates.STEPN = parseFloat(elements.stepnRateSetting.value);
+            
+            // Save swap rates
+            state.swapRates.GST.ETH = parseFloat(elements.gstEthRate.value);
+            state.swapRates.GST.LTC = parseFloat(elements.gstLtcRate.value);
+            state.swapRates.GST.BTC = parseFloat(elements.gstBtcRate.value);
+            state.swapRates.SAND.ETH = parseFloat(elements.sandEthRate.value);
+            state.swapRates.SAND.LTC = parseFloat(elements.sandLtcRate.value);
+            state.swapRates.SAND.BTC = parseFloat(elements.sandBtcRate.value);
+            state.swapRates.STEPN.ETH = parseFloat(elements.stepnEthRate.value);
+            state.swapRates.STEPN.LTC = parseFloat(elements.stepnLtcRate.value);
+            state.swapRates.STEPN.BTC = parseFloat(elements.stepnBtcRate.value);
+            
+            // Update UI
+            updateUI();
+            
+            // Switch to dashboard
+            switchTab('dashboard');
+            
+            // Show success message
+            showToast('Settings saved successfully!', 'success');
+        }
+        
+        // Show toast notification
+        function showToast(message, type = 'success') {
+            // Set message
+            elements.toastMessage.textContent = message;
+            
+            // Set icon based on type
+            const iconEl = elements.toast.querySelector('svg');
+            
+            if (type === 'success') {
+                iconEl.innerHTML = '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><path d="m9 11 3 3L22 4"></path>';
+                iconEl.classList.remove('text-destructive', 'text-primary');
+                iconEl.classList.add('text-secondary');
+            } else if (type === 'error') {
+                iconEl.innerHTML = '<circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line>';
+                iconEl.classList.remove('text-secondary', 'text-primary');
+                iconEl.classList.add('text-destructive');
+            } else {
+                iconEl.innerHTML = '<circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="16" y2="12"></line><line x1="12" x2="12.01" y1="8" y2="8"></line>';
+                iconEl.classList.remove('text-secondary', 'text-destructive');
+                iconEl.classList.add('text-primary');
+            }
+            
+            // Show toast
+            elements.toast.classList.add('show');
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                elements.toast.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Helper for validating Ethereum address
+        function isValidEthAddress(address) {
+            return /^0x[a-fA-F0-9]{40}$/.test(address);
+        }
+        
+        // Initialize app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
